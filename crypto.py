@@ -30,5 +30,4 @@ def maDecrypt(cipherText):
     print(x)
 
 
-
 maDecrypt("abcdeed")
