@@ -28,7 +28,7 @@ def maDecrypt(cipherText, aMap = 1):
     x = [i for i,j in enumerate(letterCount) if j == maxLetterCount]
     print(alphabet[x[0]])
     print(x)
-    
+
 
 
 maDecrypt("abcdeed")
