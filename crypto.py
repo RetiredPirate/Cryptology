@@ -14,7 +14,7 @@ def maEncrypt(plainText, cipher = lambda x: (x**5)%26, aMap = 1):
         cipherText.append(alphabet[cipher(alphabet.index(letter)+aMap)%26-aMap])
     print(''.join(cipherText).upper())
 
-def maDecrypt(cipherText):
+def maDecrypt(cipherText, aMap = 1):
     if type(cipherText) is not str:
         return "Invalid Input, Must be a String"
     cipherText = cipherText.lower().replace(" ","")
@@ -28,6 +28,7 @@ def maDecrypt(cipherText):
     x = [i for i,j in enumerate(letterCount) if j == maxLetterCount]
     print(alphabet[x[0]])
     print(x)
+    
 
 
 maDecrypt("abcdeed")
