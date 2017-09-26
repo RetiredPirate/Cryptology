@@ -2,6 +2,8 @@ import io
 import sys
 from string import ascii_lowercase as alphabet
 import string
+import re
+import numpy
 
 
 def maEncrypt(plainText, cipher = lambda x: (x**5)%26, aMap = 1):
@@ -29,6 +31,22 @@ def maDecrypt(cipherText):
     print(alphabet[x[0]])
     print(x)
 
+def numMap(text, aMap = 1):
+    text = stringCheck(text)
+    numberList = []
+    for letter in text:
+        numberList.append(alphabet.index(letter)+aMap)
+    return numberList
+
+def stringCheck(text):
+    if type(text) is not str:
+        print "Invalid Input, Must be a String"
+        return None
+
+    text = re.sub(r'[^a-zA-Z]', '', text)
+    text = text.lower().replace(" ","")
+    return text
 
 
-maDecrypt("abcdeed")
+
+print(numMap("I love deadlines. I love the whooshing noise they make as they go by.", aMap = 0))
