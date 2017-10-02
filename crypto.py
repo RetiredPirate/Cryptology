@@ -3,7 +3,7 @@ import sys
 from string import ascii_lowercase as alphabet
 import string
 import re
-import numpy
+# import numpy
 
 
 def maEncrypt(plainText, cipher = lambda x: (x**5)%26, aMap = 1):
@@ -16,7 +16,7 @@ def maEncrypt(plainText, cipher = lambda x: (x**5)%26, aMap = 1):
         cipherText.append(alphabet[cipher(alphabet.index(letter)+aMap)%26-aMap])
     print(''.join(cipherText).upper())
 
-def maDecrypt(cipherText, aMap = 1):
+def maDecrypt(cipherText, aMap = 1): # currently assumes aMap = 0
     if type(cipherText) is not str:
         return "Invalid Input, Must be a String"
     cipherText = cipherText.lower().replace(" ","")
@@ -47,6 +47,14 @@ def stringCheck(text):
     text = text.lower().replace(" ","")
     return text
 
+def spaceString(list):
+    newString = ""
+    for number in list:
+        newString += " " + str(number)
 
+    return newString
 
-print(numMap("I love deadlines. I love the whooshing noise they make as they go by.", aMap = 0))
+print(spaceString(numMap("XDY LYW ENG XDW NKS QWX YBW IYA KGG FMD YYE Y", aMap = 1)))
+maDecrypt("XDY LYW ENG XDW NKS QWX YBW IYA KGG FMD YYE Y")
+print((-18)%26)
+print(maEncrypt("XDY LYW ENG XDW NKS QWX YBW IYA KGG FMD YYE Y", lambda x: (19*x + 0)%26  , aMap = 0))
