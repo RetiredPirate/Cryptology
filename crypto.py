@@ -21,6 +21,7 @@ import re
 ################################################################################
 def maEncrypt(plainText, cipher = lambda x: (x**5)%26, aMap = 1):
     """Return the text enciphered by the given cipher."""
+
     plainText = stringCheck(plainText)
     plainText = numMap(plainText, aMap)
 
@@ -36,32 +37,35 @@ def maEncrypt(plainText, cipher = lambda x: (x**5)%26, aMap = 1):
 # freqInfo(cipherText)
 #
 # returns a list of each letter in the alphabet with the number of
-# appearances in the given cipherText string.
+#   appearances in the given cipherText string.
 #
 # cipherText: a string of enciphered text
 #
 ################################################################################
 def freqInfo(cipherText):
-    """Print a list of each letter with its count."""
+    """Return a list of each letter with its count."""
+
     cipherText = stringCheck(cipherText)
 
     letterCount = []
     for letter in alphabet:
         letterCount.append(cipherText.count(letter))
 
+    # TODO: make this a dict instead of a list
     printList = []
     for letter in range(len(alphabet)):
         printList.append((alphabet[letter],letterCount[letter]))
 
-    print(list(reversed(sorted(printList, key = lambda x: x[1]))))
+    return list(reversed(sorted(printList, key = lambda x: x[1])))
 
 
+# Incomplete implementation. TODO
 def digraphFreq(cipherText, aMap = 1):
     cipherText = numMap(stringCheck(cipherText))
 
 
 
-
+# Incomplete implementation. TODO
 # def kasiskiTest(cipherText, aMap=1):
 #     cipherText = numMap(stringCheck(cipherText))
 #
@@ -76,12 +80,14 @@ def digraphFreq(cipherText, aMap = 1):
 
     return listOfSubstrings
 
+
 def numMap(text, aMap = 1):
     text = stringCheck(text)
     numberList = []
     for letter in text:
         numberList.append(alphabet.index(letter)+aMap)
     return numberList
+
 
 def stringCheck(text):
     if type(text) is not str:
@@ -92,12 +98,14 @@ def stringCheck(text):
     text = text.lower().replace(" ","")
     return text
 
+
 def spaceString(list):
     newString = ""
     for number in list:
         newString += " " + str(number)
 
     return newString
+
 
 def hillDecrypt(cipherText, aMap = 1):
     text = stringCheck(text)
@@ -116,6 +124,7 @@ def vignereEncrypt(plainText, keyWord, aMap = 1):
 
     return cipherText
 
+
 def vignereDecrypt(plainText, keyWord, aMap = 1):
     plainText = numMap(stringCheck(plainText), aMap)
     keyWord = numMap(stringCheck(keyWord), aMap)
@@ -128,13 +137,40 @@ def vignereDecrypt(plainText, keyWord, aMap = 1):
 
     return cipherText
 
-def vignereFreq(cipherText, keyLen, aMap = 1):
-    cipherText = numMap(stringCheck(cipherText))
+
+################################################################################
+#
+# vignereFreq(cipherText, kenLen)
+#
+# splits the cipherText into columns corresponding to the keyLen and
+#   returns a freqency analysis for each column.
+#
+# cipherText: a string of enciphered text
+# keyLen: the integer length of the key word
+#
+################################################################################
+def vignereFreq(cipherText, keyLen):
+    """Return freqency analysis for each column."""
+
+    cipherText = stringCheck(cipherText)
 
     column = 0
-    columnMatrix = [[] for i in range(keyLen)]
+    columnMatrix = ["" for i in range(keyLen)]
     for letter in cipherText:
+        columnMatrix[column] += (letter)
 
+        column += 1
+        if column >= 5:
+            column = 0
+
+    retList = []
+    for string in columnMatrix:
+        retList.append(freqInfo(string))
+
+    return retList
+    #TODO: split cipherText into columns as well and compare to freqInfo
+
+    # print(columnMatrix)
 
 
 
@@ -161,7 +197,7 @@ def vignereFreq(cipherText, keyLen, aMap = 1):
 
 vignereFreq("jsfalsjdlfkjalfhdksajhlfdkjha", 5)
 
-print(maEncrypt("a common mistake", lambda x: ((x * 7) + 5)%26).lower())
+print("jsfalsjdlfkjalfhdksajhlfdkjha")
 
 # print((-18)%26)
 # print(maEncrypt("HGH FJL IOF YJJ TXN YJI HON VHC DJL IOW XFY XXT XON V", lambda x: (3*(x - 13))%26 , aMap = 0))
