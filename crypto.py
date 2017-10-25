@@ -30,7 +30,7 @@ def maDecrypt(cipherText, aMap = 1):
         printList.append((alphabet[letter],letterCount[letter]))
 
     # sorted(printList, key = lambda x: x[1])
-    print(reversed(sorted(printList, key = lambda x: x[1])))
+    print(list(reversed(sorted(printList, key = lambda x: x[1]))))
     # print(alphabet[x[0]])
 
 def numMap(text, aMap = 1):
@@ -59,6 +59,16 @@ def hillDecrypt(cipherText, aMap = 1):
     text = numMap(text, aMap)
 
 
+def vignereFreq(cipherText, keyLen, aMap = 1):
+    cipherText = numMap(stringCheck(cipherText))
+
+    column = 0
+    columnMatrix = [[] for i in range(keyLen)]
+    for letter in cipherText:
+        
+
+
+
 
 
 
@@ -69,19 +79,19 @@ def hillDecrypt(cipherText, aMap = 1):
 # print((18*21)%26)
 #
 
-print(spaceString(numMap("ESP PYR TYP PCE STY VDZ QST DPB FLE TZY DLD LYL AAC ZIT \
-        XLE TZY EZC PLW TEJ ESP ASJ DTN TDE EST YVD CPL WTE JTD LYL AAC ZIT XLE TZY \
-         EZS TDP BFL ETZ YDE SPX LES PXL ETN TLY OZP DYE NLC P", aMap = 0)))
+# maDecrypt("MFE RLH WSR LHW BZN BNW SRX DEC INQ RNW JHL RBW BNL DER HQN DEQ \
+#             BUJ WSH UZS RNN LDE RDA HJH LQC RWS HUM DTR EHU ICH NWN CDU JRE \
+#             WSH ULD UDM DCP BWN AER RBW ZHU QRM CHP RIH UPX SRE RHE ZSB LRI \
+#             RNI BIB WBU HQH WSW FQ")
+#
+#
+# maEncrypt("MFE RLH WSR LHW BZN BNW SRX DEC INQ RNW JHL RBW BNL DER HQN DEQ \
+#             BUJ WSH UZS RNN LDE RDA HJH LQC RWS HUM DTR EHU ICH NWN CDU JRE \
+#             WSH ULD UDM DCP BWN AER RBW ZHU QRM CHP RIH UPX SRE RHE ZSB LRI \
+#             RNI BIB WBU HQH WSW FQ", lambda x: ((3*x)-7)%26 , aMap=1)
 
-maDecrypt("MFE RLH WSR LHW BZN BNW SRX DEC INQ RNW JHL RBW BNL DER HQN DEQ \
-                BUJ WSH UZS RNN LDE RDA HJH LQC RWS HUM DTR EHU ICH NWN CDU JRE \
-                WSH ULD UDM DCP BWN AER RBW ZHU QRM CHP RIH UPX SRE RHE ZSB LRI \
-                RNI BIB WBU HQH WSW FQ")
+vignereFreq("jsfalsjdlfkjalfhdksajhlfdkjha", 5)
 
-
-maEncrypt("ESP PYR TYP PCE STY VDZ QST DPB FLE TZY DLD LYL AAC ZIT \
-        XLE TZY EZC PLW TEJ ESP ASJ DTN TDE EST YVD CPL WTE JTD LYL AAC ZIT XLE TZY \
-         EZS TDP BFL ETZ YDE SPX LES PXL ETN TLY OZP DYE NLC P", lambda x: (x-11)%26 )
 
 # print((-18)%26)
 # print(maEncrypt("HGH FJL IOF YJJ TXN YJI HON VHC DJL IOW XFY XXT XON V", lambda x: (3*(x - 13))%26 , aMap = 0))
