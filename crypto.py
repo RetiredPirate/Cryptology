@@ -138,41 +138,39 @@ def vignereDecrypt(plainText, keyWord, aMap = 1):
     return cipherText
 
 
-
 ################################################################################
 #
-# vignereFreq(cipherText, kenLen, numToPrint)
+# vignereFreq(cipherText, kenLen)
 #
 # splits the cipherText into columns corresponding to the keyLen and
-#   returns a freqency analysis for each column in the form of a
-#   list of colums and a list of the 3 most frequent letters in
-#   each column.
+#   returns a freqency analysis for each column.
 #
 # cipherText: a string of enciphered text
 # keyLen: the integer length of the key word
-# numToPrint: the number of most frequent letters to print for each column,
-#   defaults to 3
 #
 ################################################################################
-def vignereFreq(cipherText, keyLen, numToPrint = 3):
+def vignereFreq(cipherText, keyLen):
     """Return freqency analysis for each column."""
 
     cipherText = stringCheck(cipherText)
 
     column = 0
-    columnList = ["" for i in range(keyLen)]
+    columnMatrix = ["" for i in range(keyLen)]
     for letter in cipherText:
-        columnList[column] += (letter)
+        columnMatrix[column] += (letter)
 
         column += 1
         if column >= 5:
             column = 0
 
     retList = []
-    for string in columnList:
-        retList.append(freqInfo(string)[0:numToPrint])
+    for string in columnMatrix:
+        retList.append(freqInfo(string))
 
-    return (columnList, retList)
+    return retList
+    #TODO: split cipherText into columns as well and compare to freqInfo
+
+    # print(columnMatrix)
 
 
 
@@ -197,24 +195,9 @@ def vignereFreq(cipherText, keyLen, numToPrint = 3):
 #             WSH ULD UDM DCP BWN AER RBW ZHU QRM CHP RIH UPX SRE RHE ZSB LRI \
 #             RNI BIB WBU HQH WSW FQ", lambda x: ((3*x)-7)%26 , aMap=1)
 
-print(vignereFreq("YBR GPT OOY CBC GUG SNR TCW MVF RMU GJC MUI RCC UZV LJX BAJ DNU\
-RTJ LLF KFF YBL JMZ NWG YNY JYB RRV HCG VLL MGH DKB NCN JHF NRW\
-YNY JDV VTL ZGO RPX IAR QBY PNL YYI RLG YTV LYI GUG SEN OMZ NVA YSS\
-IRP DXR SGS CGR UFS BHP GLN VLX BNI CJP BYT JXG BEJ NHF MZN BSR MYE\
-NGS ZVA BBB REC YBR OCW LVR QFL RNL IER RNZ MSE MRA RGR NHT XGQ\
-FRQ MZL OEY NHF QGI HBG CAI YIC YIU RJU OFT PFM CEC FFY LJF LTR LZG\
-ORP XIE GMQ IBX YYN UVL LMV AYM OAQ PJX GUM ZMN ABI CZR LXC BAQ", 5))
+vignereFreq("jsfalsjdlfkjalfhdksajhlfdkjha", 5)
 
-print(vignereDecrypt("YBR GPT OOY CBC GUG SNR TCW MVF RMU GJC MUI RCC UZV LJX BAJ DNU\
-RTJ LLF KFF YBL JMZ NWG YNY JYB RRV HCG VLL MGH DKB NCN JHF NRW\
-YNY JDV VTL ZGO RPX IAR QBY PNL YYI RLG YTV LYI GUG SEN OMZ NVA YSS\
-IRP DXR SGS CGR UFS BHP GLN VLX BNI CJP BYT JXG BEJ NHF MZN BSR MYE\
-NGS ZVA BBB REC YBR OCW LVR QFL RNL IER RNZ MSE MRA RGR NHT XGQ\
-FRQ MZL OEY NHF QGI HBG CAI YIC YIU RJU OFT PFM CEC FFY LJF LTR LZG\
-ORP XIE GMQ IBX YYN UVL LMV AYM OAQ PJX GUM ZMN ABI CZR LXC BAQ", "funny"))
+print("jsfalsjdlfkjalfhdksajhlfdkjha")
 
 # print((-18)%26)
 # print(maEncrypt("HGH FJL IOF YJJ TXN YJI HON VHC DJL IOW XFY XXT XON V", lambda x: (3*(x - 13))%26 , aMap = 0))
-
-for num in range(26):
-    print("C: " + str(num) + "   D: " + str((2*num + 25)%26 ) + "   det: " + str((9 * (2*num + 25) - 19 * num)%26) )
