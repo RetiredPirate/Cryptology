@@ -201,3 +201,7 @@ print("jsfalsjdlfkjalfhdksajhlfdkjha")
 
 # print((-18)%26)
 # print(maEncrypt("HGH FJL IOF YJJ TXN YJI HON VHC DJL IOW XFY XXT XON V", lambda x: (3*(x - 13))%26 , aMap = 0))
+
+for C in range(26):
+    D = (2*C + 25)%26
+    print("C: " + str(C) + "   D: " + str(D) + "   det: " + str(((22*D) - (19*C))%26) )
