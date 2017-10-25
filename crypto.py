@@ -8,7 +8,19 @@ import re
 
 
 
+################################################################################
+#
+# maEncrypt(plainText, cipher, aMap)
+#
+# returns the text enciphered by the given monoalphabetic cipher.
+#   May also be used to decrypt text with a known key.
+#
+# cipherText: a string of enciphered text
+# aMap: the number in the ring Z26 that should map to the letter A
+#
+################################################################################
 def maEncrypt(plainText, cipher = lambda x: (x**5)%26, aMap = 1):
+    """Return the text enciphered by the given cipher."""
     plainText = stringCheck(plainText)
     plainText = numMap(plainText, aMap)
 
@@ -17,17 +29,32 @@ def maEncrypt(plainText, cipher = lambda x: (x**5)%26, aMap = 1):
         cipherText.append(alphabet[cipher(letter)%26-aMap])
     return (''.join(cipherText).upper())
 
-def freqInfo(cipherText, aMap = 1):
+
+
+################################################################################
+#
+# freqInfo(cipherText)
+#
+# returns a list of each letter in the alphabet with the number of
+# appearances in the given cipherText string.
+#
+# cipherText: a string of enciphered text
+#
+################################################################################
+def freqInfo(cipherText):
+    """Print a list of each letter with its count."""
     cipherText = stringCheck(cipherText)
 
     letterCount = []
     for letter in alphabet:
         letterCount.append(cipherText.count(letter))
 
-    maxLetterCount = max(letterCount)
-    x = [i for i,j in enumerate(letterCount) if j == maxLetterCount]
-    print(alphabet[x[0]])
-    print(x)
+    printList = []
+    for letter in range(len(alphabet)):
+        printList.append((alphabet[letter],letterCount[letter]))
+
+    print(list(reversed(sorted(printList, key = lambda x: x[1]))))
+
 
 def digraphFreq(cipherText, aMap = 1):
     cipherText = numMap(stringCheck(cipherText))
@@ -101,23 +128,40 @@ def vignereDecrypt(plainText, keyWord, aMap = 1):
 
     return cipherText
 
+def vignereFreq(cipherText, keyLen, aMap = 1):
+    cipherText = numMap(stringCheck(cipherText))
+
+    column = 0
+    columnMatrix = [[] for i in range(keyLen)]
+    for letter in cipherText:
 
 
 
-#
-# print(vignereEncrypt("cheesyfeet", "apple", aMap = 0))
-#
-# print(vignereDecrypt("TUL VCA CTY CFW PGC BW", "berry", aMap = 0))
 
-# print(kasiskiTest("lzf rrf yrp hol dno ilo mnf mkn rld njd nji nyo axp ybo fgc hpb \
+
+
+
+
+# print(maEncrypt("lzf rrf yrp hol dno ilo mnf mkn rld njd nji nyo axp ybo fgc hpb \
 #         yhf rno ipy bzf rmk non kxu ffk maf fup hof vyg nan hop rlo noi npy bny \
-#         vpo xfu zfr mkn onu ffk h"))
-# print((19*4)%26)
+#         vpo xfu zfr mkn onu ffk h", lambda x: (x-11)%26 ))
+# print((18*21)%26)
+#
 
-# print(spaceString(numMap("KFH YYG IGM CEJ SST EBO EUG RWJ TSD VYK ZOZ LIZ KFH XKU UIC WXF WJG AXQ PBQ AGV GXD VDG UEV GMI GYK QQP IPS CLL FYP MUL KFH XPM HGM EVD KAV YQC EGU EAL YYY ZSZ MPX ZOC TXT RIM DID VDG SXO ZFF TSM EDV MEI MDV MPK OUJ KOD UBO AXB OOR SLP ZCW IMD VYG JWM IFQ", aMap = 1)))
-# freqInfo("KFH YYG IGM CEJ SST EBO EUG RWJ TSD VYK ZOZ LIZ KFH XKU UIC WXF WJG AXQ PBQ AGV GXD VDG UEV GMI GYK QQP IPS CLL FYP MUL KFH XPM HGM EVD KAV YQC EGU EAL YYY ZSZ MPX ZOC TXT RIM DID VDG SXO ZFF TSM EDV MEI MDV MPK OUJ KOD UBO AXB OOR SLP ZCW IMD VYG JWM IFQ")
+# maDecrypt("MFE RLH WSR LHW BZN BNW SRX DEC INQ RNW JHL RBW BNL DER HQN DEQ \
+#             BUJ WSH UZS RNN LDE RDA HJH LQC RWS HUM DTR EHU ICH NWN CDU JRE \
+#             WSH ULD UDM DCP BWN AER RBW ZHU QRM CHP RIH UPX SRE RHE ZSB LRI \
+#             RNI BIB WBU HQH WSW FQ")
+#
+#
+# maEncrypt("MFE RLH WSR LHW BZN BNW SRX DEC INQ RNW JHL RBW BNL DER HQN DEQ \
+#             BUJ WSH UZS RNN LDE RDA HJH LQC RWS HUM DTR EHU ICH NWN CDU JRE \
+#             WSH ULD UDM DCP BWN AER RBW ZHU QRM CHP RIH UPX SRE RHE ZSB LRI \
+#             RNI BIB WBU HQH WSW FQ", lambda x: ((3*x)-7)%26 , aMap=1)
+
+vignereFreq("jsfalsjdlfkjalfhdksajhlfdkjha", 5)
 
 print(maEncrypt("a common mistake", lambda x: ((x * 7) + 5)%26).lower())
 
-# print(numMap("abcdefghijklmnopqrstuvwxyz", aMap = 0))
-# print(numMap("abcdefghijklmnopqrstuvwxyz", aMap = 1))
+# print((-18)%26)
+# print(maEncrypt("HGH FJL IOF YJJ TXN YJI HON VHC DJL IOW XFY XXT XON V", lambda x: (3*(x - 13))%26 , aMap = 0))
