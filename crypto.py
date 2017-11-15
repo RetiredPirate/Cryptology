@@ -7,6 +7,26 @@ import re
 # import numpy
 
 
+################################################################################
+#                           Static Functions
+################################################################################
+def texTable(text):
+    out = text[0]
+    for letter in text[1:]:
+        out += " & " + letter
+
+    out += " \\\\"
+    return out
+
+
+
+################################################################################
+#
+# class cipher:
+#
+# difines a maping of the English alphabet
+#
+################################################################################
 class cipher:
 
     def __init__(self, aMap = 1):
@@ -16,6 +36,8 @@ class cipher:
         for i in range(26):
             self.alphabet.append(ascii_lowercase[(i-aMap)%26])
 
+    def __str__(self):
+        return self.alphabet
 
 
     ################################################################################
@@ -99,7 +121,7 @@ class cipher:
         return numberList
 
 
-    def stringCheck(text):
+    def stringCheck(self, text):
         if type(text) is not str:
             print("Invalid Input, Must be a String")
             return None
@@ -109,19 +131,29 @@ class cipher:
         return text
 
 
-    def spaceString(list):
+    def spaceString(self, list):
         newString = ""
         for number in list:
             newString += " " + str(number)
 
         return newString
 
-
+    # Not implemented
     def hillDecrypt(self, cipherText):
         text = self.stringCheck(text)
         text = self.numMap(text)
 
 
+    ################################################################################
+    #
+    # vignereEncrypt(cipherText, keyWord)
+    #
+    # Encrypts the plainText with the given key word by mathematical addition
+    #
+    # plainText: a string of plain text
+    # keyWord: the string of characters representing the key
+    #
+    ################################################################################
     def vignereEncrypt(self, plainText, keyWord):
         plainText = self.numMap(self.stringCheck(plainText))
         keyWord = self.numMap(self.stringCheck(keyWord))
@@ -130,7 +162,7 @@ class cipher:
         cipherText = ""
 
         for i in range(0,len(plainText)):
-            cipherText += self.alphabet[plainText[i] + keyWord[i%keyLen]]
+            cipherText += self.alphabet[(plainText[i] + keyWord[i%keyLen])%26]
 
         return cipherText
 
@@ -153,7 +185,7 @@ class cipher:
         cipherText = ""
 
         for i in range(0,len(plainText)):
-            cipherText += self.alphabet[plainText[i] - keyWord[i%keyLen]]
+            cipherText += self.alphabet[(plainText[i] - keyWord[i%keyLen])%26]
 
         return cipherText
 
@@ -205,14 +237,16 @@ class cipher:
 
 
 newCipher = cipher(1)
-print newCipher.alphabet
+# print newCipher.alphabet
 
 
-print(newCipher.maEncrypt("lzf rrf yrp hol dno ilo mnf mkn rld njd nji nyo axp ybo fgc hpb \
-        yhf rno ipy bzf rmk non kxu ffk maf fup hof vyg nan hop rlo noi npy bny \
-        vpo xfu zfr mkn onu ffk h", lambda x: (x-11)%26 ))
-print((18*21)%26)
+print(texTable(newCipher.vignereEncrypt("hello world", "cheese")))
 
+# print(newCipher.maEncrypt("lzf rrf yrp hol dno ilo mnf mkn rld njd nji nyo axp ybo fgc hpb \
+#         yhf rno ipy bzf rmk non kxu ffk maf fup hof vyg nan hop rlo noi npy bny \
+#         vpo xfu zfr mkn onu ffk h", lambda x: (x-11)%26 ))
+# print((18*21)%26)
+#
 
 # maDecrypt("MFE RLH WSR LHW BZN BNW SRX DEC INQ RNW JHL RBW BNL DER HQN DEQ \
 #             BUJ WSH UZS RNN LDE RDA HJH LQC RWS HUM DTR EHU ICH NWN CDU JRE \
