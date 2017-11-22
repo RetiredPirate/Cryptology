@@ -10,7 +10,10 @@ import re
 ################################################################################
 #                           Static Functions
 ################################################################################
+
+
 def texTable(text):
+    """Insert '&' between each list entry to format for LaTeX lables"""
     out = text[0]
     for letter in text[1:]:
         out += " & " + letter
@@ -20,12 +23,32 @@ def texTable(text):
 
 
 
+def stringCheck(text):
+    """Convert mixed case text to all lower case and remove spaces"""
+    if type(text) is not str:
+        print("Invalid Input, Must be a String")
+        return None
+
+    text = re.sub(r'[^a-zA-Z]', '', text)
+    text = text.lower().replace(" ","")
+    return text
+
+
+
+def spaceString(list):
+    """Add spaces between list numbers"""
+    newString = ""
+    for number in list:
+        newString += " " + str(number)
+
+    return newString
+
+
+
 ################################################################################
-#
 # class cipher:
 #
-# difines a maping of the English alphabet
-#
+#   difines a maping of the English alphabet
 ################################################################################
 class cipher:
 
@@ -40,22 +63,19 @@ class cipher:
         return self.alphabet
 
 
-    ################################################################################
-    #
+    ############################################################################
     # maEncrypt(plainText, cipher)
     #
-    # returns the text enciphered by the given monoalphabetic cipher.
-    #   May also be used to decrypt text with a known key.
+    #   returns the text enciphered by the given monoalphabetic cipher.
+    #       May also be used to decrypt text with a known key.
     #
-    # plainText: a string of unenciphered text
-    # cipher: function to map plainText to cipherText
-    #
-    ################################################################################
+    #   plainText: a string of unenciphered text
+    #   cipher: function to map plainText to cipherText
+    ############################################################################
     def maEncrypt(self, plainText, cipher = lambda x: (x**5)%26):
         """Return the text enciphered by the given cipher."""
 
-        plainText = self.stringCheck(plainText)
-        plainText = self.numMap(plainText)
+        plainText = stringCheck(self.numMap(plainText))
 
         cipherText = []
         for letter in plainText:
@@ -64,20 +84,18 @@ class cipher:
 
 
 
-    ################################################################################
-    #
+    ############################################################################
     # freqInfo(cipherText)
     #
-    # returns a list of each letter in the alphabet with the number of
-    #   appearances in the given cipherText string.
+    #   returns a list of each letter in the alphabet with the number of
+    #       appearances in the given cipherText string.
     #
-    # cipherText: a string of enciphered text
-    #
-    ################################################################################
+    #   cipherText: a string of enciphered text
+    ############################################################################
     def freqInfo(self, cipherText):
         """Return a list of each letter with its count."""
 
-        cipherText = self.stringCheck(cipherText)
+        cipherText = stringCheck(cipherText)
 
         letterCount = []
         for letter in self.alphabet:
@@ -113,50 +131,45 @@ class cipher:
     #     return listOfSubstrings
 
 
+
+    ############################################################################
+    # numMap(text):
+    #
+    #   Maps the given text to numbers within the class specified alphabet
+    #
+    #   text: plain text using all lower case and no spaces
+    #
+    #   return: list of numbers corresponding to position withing the
+    #               class alphabet
+    ############################################################################
     def numMap(self, text):
-        text = self.stringCheck(text)
+        """Return list of numbers corresponding to given letters in alphabet"""
+        text = stringCheck(text)
         numberList = []
         for letter in text:
             numberList.append(self.alphabet.index(letter))
         return numberList
 
 
-    def stringCheck(self, text):
-        if type(text) is not str:
-            print("Invalid Input, Must be a String")
-            return None
-
-        text = re.sub(r'[^a-zA-Z]', '', text)
-        text = text.lower().replace(" ","")
-        return text
-
-
-    def spaceString(self, list):
-        newString = ""
-        for number in list:
-            newString += " " + str(number)
-
-        return newString
 
     # Not implemented
     def hillDecrypt(self, cipherText):
-        text = self.stringCheck(text)
-        text = self.numMap(text)
+        text = stringCheck(self.numMap(text))
 
 
-    ################################################################################
+
+    ############################################################################
+    # vignereEncrypt(cipherText, keyWord):
     #
-    # vignereEncrypt(cipherText, keyWord)
+    #   Encrypts the plainText with the given key word by mathematical addition
     #
-    # Encrypts the plainText with the given key word by mathematical addition
-    #
-    # plainText: a string of plain text
-    # keyWord: the string of characters representing the key
-    #
-    ################################################################################
+    #   plainText: a string of plain text
+    #   keyWord: the string of characters representing the key
+    ############################################################################
     def vignereEncrypt(self, plainText, keyWord):
-        plainText = self.numMap(self.stringCheck(plainText))
-        keyWord = self.numMap(self.stringCheck(keyWord))
+        """Encrypt plain text with vignere cipher using given key word"""
+        plainText = self.numMap(stringCheck(plainText))
+        keyWord = self.numMap(stringCheck(keyWord))
 
         keyLen = len(keyWord)
         cipherText = ""
@@ -166,45 +179,45 @@ class cipher:
 
         return cipherText
 
-    ################################################################################
-    #
-    # vignereDecrypt(cipherText, keyWord)
-    #
-    # Decrypts the plainText with the given key word by mathematical subtraction
-    #
-    # cipherText: a string of enciphered text
-    # keyWord: the string of characters representing the key
-    #
-    ################################################################################
-    def vignereDecrypt(self, plainText, keyWord):
-
-        plainText = self.numMap(self.stringCheck(plainText))
-        keyWord = self.numMap(self.stringCheck(keyWord))
-
-        keyLen = len(keyWord)
-        cipherText = ""
-
-        for i in range(0,len(plainText)):
-            cipherText += self.alphabet[(plainText[i] - keyWord[i%keyLen])%26]
-
-        return cipherText
 
 
     ############################################################################
+    # vignereDecrypt(cipherText, keyWord):
     #
+    #   Decrypts the plainText with the given key word by mathematical subtraction
+    #
+    #   cipherText: a string of enciphered text
+    #   keyWord: the string of characters representing the key
+    ############################################################################
+    def vignereDecrypt(self, cipherText, keyWord):
+        """Decrypt cipher text with vignere cipher using given key word"""
+
+        cipherText = self.numMap(stringCheck(cipherText))
+        keyWord = self.numMap(stringCheck(keyWord))
+
+        keyLen = len(keyWord)
+        plainText = ""
+
+        for i in range(0,len(cipherText)):
+            plainText += self.alphabet[(cipherText[i] - keyWord[i%keyLen])%26]
+
+        return plainText
+
+
+
+    ############################################################################
     # vignereFreq(cipherText, kenLen)
     #
-    # splits the cipherText into columns corresponding to the keyLen and
-    #   returns a freqency analysis for each column.
+    #   splits the cipherText into columns corresponding to the keyLen and
+    #       returns a freqency analysis for each column.
     #
-    # cipherText: a string of enciphered text
-    # keyLen: the integer length of the key word
-    #
+    #   cipherText: a string of enciphered text
+    #   keyLen: the integer length of the key word
     ############################################################################
     def vignereFreq(self, cipherText, keyLen):
         """Return freqency analysis for each column."""
 
-        cipherText = self.stringCheck(cipherText)
+        cipherText = stringCheck(cipherText)
 
         column = 0
         columnMatrix = ["" for i in range(keyLen)]
